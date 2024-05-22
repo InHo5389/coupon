@@ -9,11 +9,11 @@ spring:
       maximum-pool-size: 10
       max-lifetime: 30000
       connection-timeout: 3000
-      username: abcd
+      username: admin
       password: 1234
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -34,7 +34,7 @@ spring:
     password:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -59,7 +59,7 @@ spring:
       password: PROD_PASSWORD
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
   data:
     redis:
       host: PROD_URL

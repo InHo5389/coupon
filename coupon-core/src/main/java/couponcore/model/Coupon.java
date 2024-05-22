@@ -27,6 +27,7 @@ public class Coupon extends BaseEntity {
     private String title;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private CouponType couponType;
 
     private Integer totalQuantity;
