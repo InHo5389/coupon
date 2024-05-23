@@ -21,10 +21,16 @@ public class CouponIssueService {
 
     @Transactional
     public void issue(long couponId, long userId) {
-        Coupon coupon = findCoupon(couponId);
+        Coupon coupon = findCouponWithLock(couponId);
         coupon.issue();
 
         saveCouponIssue(couponId, userId);
+    }
+
+    @Transactional(readOnly = true)
+    public Coupon findCouponWithLock(long couponId) {
+        return couponJpaRepository.findCouponWithLock(couponId)
+                .orElseThrow(() -> new CouponIssueException(ErrorCode.COUPON_NOT_EXIST, "해당 쿠폰이 없습니다."));
     }
 
     @Transactional(readOnly = true)
@@ -35,7 +41,7 @@ public class CouponIssueService {
 
     @Transactional
     public CouponIssue saveCouponIssue(long couponId, long userId) {
-        checkAlreadyIssuance(couponId,userId);
+        checkAlreadyIssuance(couponId, userId);
 
         CouponIssue couponIssue = CouponIssue.builder()
                 .couponId(couponId)
@@ -47,8 +53,8 @@ public class CouponIssueService {
 
     private void checkAlreadyIssuance(long couponId, long userId) {
         CouponIssue issue = couponIssueRepository.findFirstCouponIssue(couponId, userId);
-        if (issue != null){
-            throw new CouponIssueException(ErrorCode.DUPLICATED_COUPON_ISSUE,"이미 발급된 쿠폰입니다.");
+        if (issue != null) {
+            throw new CouponIssueException(ErrorCode.DUPLICATED_COUPON_ISSUE, "이미 발급된 쿠폰입니다.");
         }
     }
 

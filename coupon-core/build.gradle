@@ -7,6 +7,10 @@ repositories {
 	mavenCentral()
 }
 
+tasks.named("bootJar") {
+	mainClass = 'com.example.ExampleApplication'
+}
+
 dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
